@@ -18,6 +18,12 @@ router.get('/top10', (req, res) => {
     .catch((err) => res.json(err))
 });
 
+// GET FIRST YEAR - LAST YEAR BOOK LIST
+router.get('/between/:start_year/:end_year', (req, res) => {
+  const { start_year, end_year } = req.params;
+  Book.find()
+})
+
 // PUT
 router.put('/:book_id', (req, res) => {
   const { book_id } = req.params;
