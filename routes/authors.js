@@ -6,7 +6,46 @@ const Author = require('../models/Author');
 
 // GET
 router.get('/', (req, res) => {
-  res.json({ status: 1 })
+  Author.aggregate([
+    {
+      $lookup: {
+        from: 'books',
+        localField: '_id',
+        foreignField: 'author_id',
+        as: 'books'
+      }
+    },
+    {
+      $unwind: {
+        path: '$books',
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
+      $group: {
+        _id: {
+          _id: '$_id',
+          age: '$age',
+          name: '$name',
+          surname: '$surname'
+        },
+        books: {
+          $push: '$books'
+        }
+      }
+    },
+    {
+      $project: {
+        _id: '$_id._id',
+        age: '$_id.age',
+        name: '$_id.name',
+        surname: '$_id.surname',
+        books: '$books'
+      }
+    }
+  ])
+    .then((data) => res.json(data))
+    .catch((err) => res.json(err))
 });
 
 // PUT

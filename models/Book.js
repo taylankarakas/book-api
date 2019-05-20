@@ -11,7 +11,10 @@ const BookSchema = new Schema({
         type: Number,
         required: true
     },
-    publisher: String,
+    author_id: {
+        type: Schema.Types.ObjectId,
+        required: true
+    },
     category: {
         required: true,
         type: String
@@ -19,7 +22,7 @@ const BookSchema = new Schema({
     point: {
         type: Number,
         default: 0
-    }
+    },
 });
 
 module.exports = mongoose.model('book', BookSchema);

@@ -6,7 +6,22 @@ const Book = require('../models/Book');
 
 // GET
 router.get('/', function(req, res, next) {
-  Book.find({  })
+  Book.aggregate([
+    {
+      $lookup: {
+        from: 'authors',
+        localField: 'author_id',
+        foreignField: '_id',
+        as: 'author'
+      }
+    },
+    {
+      $unwind: {
+        path: '$author',
+        preserveNullAndEmptyArrays: true
+      }
+    }
+  ])
     .then((data) => res.json(data))
     .catch((err) => res.json(err))
 });
@@ -21,7 +36,16 @@ router.get('/top10', (req, res) => {
 // GET FIRST YEAR - LAST YEAR BOOK LIST
 router.get('/between/:start_year/:end_year', (req, res) => {
   const { start_year, end_year } = req.params;
-  Book.find()
+  Book.find(
+    {
+      year: {
+        $gte: start_year,
+        $lte: end_year
+      }
+    }
+  )
+    .then((books) => res.json(books))
+    .catch((err) => res.json(err))
 })
 
 // PUT
@@ -44,11 +68,11 @@ router.delete('/:book_id', (req, res) => {
 
 // POST
 router.post('/new', (req, res) => {
-  const { title, year, publisher, category, point } = req.body;
+  const { title, year, author_id, category, point } = req.body;
   const book = new Book({
     title,
     year,
-    publisher,
+    author_id,
     category,
     point
   });
