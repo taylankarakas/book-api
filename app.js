@@ -8,6 +8,7 @@ const indexRouter = require('./routes/authors');
 const books = require('./routes/books');
 const authors = require('./routes/authors');
 
+const cors = require('cors');
 const app = express();
 
 // db connecting
@@ -17,6 +18,7 @@ const db = require('./helper/db')();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -24,8 +26,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use('/authors', authors);
-app.use('/books', books);
+app.use('/api/authors', authors);
+app.use('/api/books', books);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
