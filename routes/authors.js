@@ -58,12 +58,13 @@ router.put('/:author_id', (req, res) => {
 
 // POST
 router.post('/new', (req, res) => {
-  const { name, surname, age } = req.body;
+  const { name, surname, age, avatar } = req.body;
 
   const author = new Author({
     name,
     surname,
-    age
+    age,
+    avatar
   });
 
   author.save()

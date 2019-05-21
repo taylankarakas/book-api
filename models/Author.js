@@ -11,6 +11,10 @@ const AuthorSchema = new Schema({
         default: 0,
         type: Number
     },
+    avatar: {
+        type: String,
+        default: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
+    }
 });
 
 module.exports = mongoose.model('authors', AuthorSchema);
