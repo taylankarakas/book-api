@@ -4,7 +4,7 @@ const router = express.Router();
 // Model
 const Book = require('../models/Book');
 
-// GET
+// GET ALL BOOKS
 router.get('/', function(req, res, next) {
   Book.aggregate([
     {
@@ -25,6 +25,14 @@ router.get('/', function(req, res, next) {
     .then((data) => res.json(data))
     .catch((err) => res.json(err))
 });
+
+// GET THE BOOK DETAIL
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
+  Book.findById(id)
+    .then((response) => res.json(response))
+    .catch((err) => res.json(err))
+})
 
 // GET TOP 10 LIST
 router.get('/top10', (req, res) => {
