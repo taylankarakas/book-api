@@ -76,14 +76,15 @@ router.delete('/:book_id', (req, res) => {
 
 // POST
 router.post('/new', (req, res) => {
-  const { title, year, author_id, category, point, image } = req.body;
+  const { title, year, author_id, category, point, image, summary } = req.body;
   const book = new Book({
     title,
     year,
     author_id,
     category,
     point,
-    image
+    image,
+    summary
   });
 
   book.save()

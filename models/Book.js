@@ -26,7 +26,8 @@ const BookSchema = new Schema({
     image: {
         type: String,
         default: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
-    }
+    },
+    summary: String
 });
 
 module.exports = mongoose.model('book', BookSchema);
