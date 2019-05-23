@@ -27,7 +27,8 @@ router.get('/', (req, res) => {
           _id: '$_id',
           age: '$age',
           name: '$name',
-          surname: '$surname'
+          surname: '$surname',
+          avatar: '$avatar'
         },
         books: {
           $push: '$books'
@@ -40,6 +41,7 @@ router.get('/', (req, res) => {
         age: '$_id.age',
         name: '$_id.name',
         surname: '$_id.surname',
+        avatar: '$_id.avatar',
         books: '$books'
       }
     }
