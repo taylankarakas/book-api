@@ -4,15 +4,20 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const indexRouter = require('./routes/authors');
+// const indexRouter = require('./routes/authors');
 const books = require('./routes/books');
 const authors = require('./routes/authors');
+const users = require('./routes/users');
 
 const cors = require('cors');
 const app = express();
 
 // db connecting
 const db = require('./helper/db')();
+
+// Config
+const config = require('./config');
+app.set('api_secret_key', config.api_secret_key);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use('/api/authors', authors);
 app.use('/api/books', books);
+app.use('/', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
