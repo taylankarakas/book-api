@@ -8,18 +8,17 @@ module.exports = (req, res, next) => {
             if(err) {
                 res.json({
                     status: false,
-                    message: 'token geçersiz'
+                    message: 'Failed to authenticate token.'
                 });
             } else {
                 req.decode = decoded;
-                console.log(decoded)
                 next();
             }
-        })
+        });
     } else {
         res.json({
             status: false,
-            message: 'token yok'
-        })
+            message: 'No token provided.'
+        });
     }
 }
