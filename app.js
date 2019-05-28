@@ -19,6 +19,9 @@ const db = require('./helper/db')();
 const config = require('./config');
 app.set('api_secret_key', config.api_secret_key);
 
+// Token Verify Middleware
+const tokenVerify = require('./token_verify_middleware');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -31,9 +34,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
+app.use('/', users);
+app.use('/api', tokenVerify);
 app.use('/api/authors', authors);
 app.use('/api/books', books);
-app.use('/', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
