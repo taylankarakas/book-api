@@ -34,10 +34,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use('/', users);
-app.use('/api', tokenVerify);
-app.use('/api/authors', authors);
 app.use('/api/books', books);
+app.use('/api', tokenVerify);
+app.use('/', users);
+app.use('/api/authors', authors);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

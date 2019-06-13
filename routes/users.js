@@ -3,12 +3,14 @@ const router = express.Router();
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const tokenVerify = require('../token_verify_middleware');
+
 // MODEL
 const User = require('../models/User');
 
 // GET
-router.get('/', (req, res) => {
-    res.json({ status: 1 })
+router.get('/user', tokenVerify, (req, res) => {
+    res.json(req.decode)
 });
 
 // POST REGISTER
@@ -40,17 +42,17 @@ router.post('/authentication', (req, res) => {
             res.json({
                 status: false,
                 message: 'Authentication failed, user not found.'
-             })
+            })
         } else {
             bcryptjs.compare(password, user.password, (err, response) => {
                 if(err) {
                     throw err;
                 } else if(response) {
+                    //response = true / false
                     const payload = {
-                        username,
                         id: user._id
                     };
-                    const token = jwt.sign(payload, req.app.get('api_secret_key'), { expiresIn: 120 });
+                    const token = jwt.sign(payload, req.app.get('api_secret_key'), { expiresIn: '100days' });
                     res.json({
                         status: true,
                         token
